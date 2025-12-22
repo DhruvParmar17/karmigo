@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  api:
+    build: .
+    container_name: karmigo-backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: "postgresql+asyncpg://karmigouser:dhrsan@db:5432/karmigo"
+    depends_on:
+      - db
+      - redis
+    restart: unless-stopped
+
+  db:
+    image: postgis/postgis:15-3.4
+    container_name: karmigo-backend-db-1
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: karmigo
+      POSTGRES_USER: karmigouser
+      POSTGRES_PASSWORD: dhrsan
+
+  redis:
+    image: redis:7
+    container_name: karmigo-backend-redis-1
+    ports:
+      - "6379:6379"
+
+volumes:
+  db_data:
