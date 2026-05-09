@@ -9,6 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 # import the dependency that verifies the Bearer token
 from app.api.deps import get_current_user
+from app.schemas import UserUpdate
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -34,6 +35,24 @@ async def list_users(
     q = select(User).limit(limit)
     result = await session.execute(q)
     return result.scalars().all()
+
+
+@router.put("/me", response_model=User)
+async def update_user_me(
+    user_update: UserUpdate,
+    session: AsyncSession = Depends(get_session),
+    current_user: User = Depends(get_current_user)
+):
+    if user_update.full_name is not None:
+        current_user.full_name = user_update.full_name
+    if user_update.phone is not None:
+        current_user.phone = user_update.phone
+    if user_update.address is not None:
+        current_user.address = user_update.address
+
+    await session.commit()
+    await session.refresh(current_user)
+    return current_user
 
 
 @router.get("/{user_id}", response_model=User)

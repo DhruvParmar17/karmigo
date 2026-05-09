@@ -1,0 +1,53 @@
+--- DIAGNOSTICS START ---
+Checking recent orders:
+Order ID: c5e69d44-a2be-4dff-a886-df3e3ae67c78, Title: HOUSE SHIFTING, Status: pending
+  > total_amount: 3324.0
+  > required_labours: 6
+  > Billing: total_estimated: 3324.0, labour_count: 6
+--------------------
+Order ID: 48eb17f3-f1c8-4b09-9b9a-505440ff9668, Title: HOUSE SHIFTING, Status: pending
+  > total_amount: 2710.0
+  > required_labours: 5
+  > Billing: total_estimated: 2710.0, labour_count: 5
+--------------------
+Order ID: 1a384f77-d0ad-4707-ac0f-ebf2a4649590, Title: TEMPO LOADING / UNLOADING, Status: pending
+  > total_amount: 1640.0
+  > required_labours: 4
+  > Billing: total_estimated: 1640.0, labour_count: 4
+--------------------
+Order ID: c499442d-02c8-46f8-a224-0266ac2b5694, Title: Heavy Item Shifting, Status: pending
+  > total_amount: 350.0
+  > required_labours: 1
+  > Billing: total_estimated: 350.0, labour_count: 1
+--------------------
+Order ID: 92221f83-5d56-40a4-9484-5c1ea20dd98d, Title: Stair Climbing, Status: pending
+  > total_amount: 350.0
+  > required_labours: 1
+  > Billing: total_estimated: 350.0, labour_count: 1
+--------------------
+Order ID: a732e43b-a15a-4aff-945a-e1cc962b521b, Title: HOUSE SHIFTING, Status: assigned
+  > total_amount: 1400.0
+  > required_labours: 4
+  > Billing: total_estimated: 1400.0, labour_count: 4
+--------------------
+Order ID: 62bde480-5b8a-4254-aa07-aca7ccba5876, Title: PLYWOOD / FURNITURE UNLOADING, Status: assigned
+  > total_amount: 1230.0
+  > required_labours: 3
+  > Billing: total_estimated: 1230.0, labour_count: 3
+--------------------
+Order ID: e7653187-9204-41f8-9450-4276a8270333, Title: CONSTRUCTION LABOUR, Status: assigned
+  > total_amount: 1050.0
+  > required_labours: 3
+  > Billing: total_estimated: 1050.0, labour_count: 3
+--------------------
+Order ID: bff7ef9b-fdbf-420d-98e7-6264ab69d324, Title: CONSTRUCTION LABOUR, Status: assigned
+  > total_amount: 1230.0
+  > required_labours: 3
+  > Billing: total_estimated: 1230.0, labour_count: 3
+--------------------
+Order ID: f260e066-50c2-45bd-b8d6-0d2566a98ac4, Title: HOUSE SHIFTING, Status: assigned
+  > total_amount: 1754.0
+  > required_labours: 3
+  > Billing: total_estimated: 1754.0, labour_count: 3
+--------------------
+--- DIAGNOSTICS END ---

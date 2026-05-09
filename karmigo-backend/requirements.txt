@@ -13,3 +13,4 @@ redis
 python-jose[cryptography]
 pydantic[email]
 email-validator
+httpx

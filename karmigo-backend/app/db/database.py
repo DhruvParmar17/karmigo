@@ -30,7 +30,7 @@ else:
         f"@{settings.DB_HOST}:{settings.DB_PORT}/{settings.DB_NAME}"
     )
 
-engine = create_async_engine(DATABASE_URL, echo=True, future=True)
+engine = create_async_engine(DATABASE_URL, echo=False, future=True)
 
 async_session = sessionmaker(
     engine, class_=AsyncSession, expire_on_commit=False

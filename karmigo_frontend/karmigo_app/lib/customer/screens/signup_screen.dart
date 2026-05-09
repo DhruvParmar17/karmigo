@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../services/api_service.dart';
+import '../../widgets/logo_widget.dart';
 
 class SignupScreen extends StatelessWidget {
   final email = TextEditingController();
@@ -15,6 +16,8 @@ class SignupScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: Column(
           children: [
+            const LogoWidget(),
+            const SizedBox(height: 20),
             TextField(
               controller: email,
               decoration: const InputDecoration(labelText: "Email"),

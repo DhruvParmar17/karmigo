@@ -1,5 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yourcompany.karmigo.karmigo_app">
+    <uses-permission android:name="android.permission.CAMERA"/>
    <application
         android:label="karmigo_app"
         android:name="${applicationName}"

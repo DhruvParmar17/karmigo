@@ -26,13 +26,8 @@ from app.db.models import User, Labour
 
 # If your auth.py already defines SECRET_KEY and ALGORITHM and DOES NOT import deps,
 # it's OK to import them here. If you find a circular import error, see the note above.
-try:
-    # prefer importing from app.api.auth (your current layout) so values match
-    from app.api.auth import SECRET_KEY, ALGORITHM
-except Exception:
-    # fallback defaults (only used if import fails). Replace with secure values in production.
-    SECRET_KEY = "karmigo-secret-key-change-this"
-    ALGORITHM = "HS256"
+# Avoid circular imports by using config module
+from app.core.config import SECRET_KEY, ALGORITHM
 
 # OAuth2 scheme — used by Swagger UI to display the "Authorize" button.
 # It points to your token endpoint (login). This does not itself validate tokens.
@@ -67,9 +62,10 @@ async def get_current_user(
             )
     except jwt.ExpiredSignatureError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token expired")
-    except jwt.InvalidTokenError:
+    except jwt.JWTError:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid token")
-    except Exception:
+    except Exception as e:
+        print(f"Token validation error: {e}")
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Could not validate credentials")
 
     # Load user from DB
@@ -97,14 +93,51 @@ async def get_current_labour(
 
     # AUTO-REGISTER IF MISSING (Lazy Registration)
     if not labour:
-        # Create a new labour profile for this user automatically
-        labour = Labour(
-            email=current_user.email,
-            full_name=current_user.full_name or "Labour",
-            phone=current_user.phone
-        )
-        session.add(labour)
-        await session.commit()
-        await session.refresh(labour)
+        try:
+            print(f"DEBUG: Auto-creating labour for {current_user.email}")
+            # Create a new labour profile for this user automatically
+            labour = Labour(
+                email=current_user.email,
+                full_name=current_user.full_name or "Labour",
+                phone=current_user.phone,
+                wallet_balance=0.0
+            )
+            session.add(labour)
+            await session.commit()
+            await session.refresh(labour)
+            print(f"DEBUG: Created labour {labour.id}")
+        except Exception as e:
+            print(f"ERROR creating labour: {e}")
+            with open("error_log.txt", "a") as f:
+                f.write(f"ERROR creating labour: {str(e)}\n")
+                import traceback
+                traceback.print_exc(file=f)
+            
+            raise HTTPException(status_code=500, detail=f"Failed to register labour profile: {str(e)}")
+    
+    # Verification Override for Demo Account
+    is_demo_account = (
+        (labour.email in ["dhurvparmar8@gmail.com", "dhruvparmar8@gmail.com"]) or 
+        (labour.phone and (labour.phone == "9892593525" or labour.phone.endswith("9892593525"))) or
+        (current_user.email in ["dhurvparmar8@gmail.com", "dhruvparmar8@gmail.com"]) or
+        (current_user.phone and (current_user.phone == "9892593525" or current_user.phone.endswith("9892593525")))
+    )
+    if is_demo_account:
+        labour.is_verified = True
+        labour.verification_status = "verified"
     
     return labour
+
+
+async def get_current_admin(
+    current_user: User = Depends(get_current_user),
+) -> User:
+    """
+    Dependency to ensure the user is an Admin (is_superuser=True).
+    """
+    if not current_user.is_superuser:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN, 
+            detail="Admin privileges required"
+        )
+    return current_user

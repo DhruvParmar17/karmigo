@@ -1,0 +1,8 @@
+Listed 10 jobs. Now checking specific job...
+--- SPECIFIC JOB 92221f83-5d56-40a4-9484-5c1ea20dd98d ---
+Title: Stair Climbing
+Total Amount: 350.0
+Required Labours: None
+Accepted Count: None
+Per Gross: None
+Per Net: None
